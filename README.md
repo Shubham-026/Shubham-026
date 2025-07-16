@@ -7,7 +7,7 @@
 
 - 🌱 I’m currently learning **Flutter**
 
-- 👨‍💻 All of my projects are available at [https://shubhamgupta-six.vercel.app/](https://shubhamgupta-six.vercel.app/)
+- 👨‍💻 Know more about me at [https://shubhamgupta-six.vercel.app/](https://shubhamgupta-six.vercel.app/)
 
 - 📝 I regularly write articles on [https://shubhamgupta-six.vercel.app/blog](https://shubhamgupta-six.vercel.app/blog)
 
