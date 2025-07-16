@@ -406,21 +406,11 @@ const ExperienceSection = () => {
   );
 };
 
-const ContactSection = ({ onGenerateMessage }) => {
+const ContactSection = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState('');
-  const [isAiLoading, setIsAiLoading] = useState(false);
-
-  const handleGenerateMessage = async () => {
-    setIsAiLoading(true);
-    const generatedMessage = await onGenerateMessage(name, message);
-    if (generatedMessage) {
-      setMessage(generatedMessage);
-    }
-    setIsAiLoading(false);
-  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -485,15 +475,6 @@ const ContactSection = ({ onGenerateMessage }) => {
                   className="w-full bg-slate-700/50 border border-gray-600 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-sky-500 hide-scrollbar"
                   required
                 ></textarea>
-                <button
-                  type="button"
-                  onClick={handleGenerateMessage}
-                  disabled={isAiLoading}
-                  className="absolute bottom-3 right-3 text-xs bg-sky-500/50 text-white px-2 py-1 rounded-full hover:bg-sky-500/80 transition-colors flex items-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {isAiLoading ? <LoaderCircle className="animate-spin" size={14} /> : <Sparkles size={14} />}
-                  Help Me Write
-                </button>
               </div>
               <button type="submit" className="w-full bg-sky-500 text-white font-semibold p-3 rounded-lg hover:bg-sky-600 transition-all duration-300 shadow-lg disabled:bg-sky-800" disabled={status === 'Sending...'}>
                 {status === 'Sending...' ? 'Sending...' : 'Send Message'}
@@ -538,6 +519,12 @@ export default function App() {
 
   async function callGeminiAPI(prompt) {
     const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
+
+    if (!apiKey) {
+      console.error("Gemini API key is missing. Please set it up in your environment variables.");
+      return "Error: Gemini API key is not configured. Please contact the site administrator.";
+    }
+
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
     const payload = {
@@ -584,14 +571,6 @@ export default function App() {
     setProjectIdea(idea);
     setIsModalLoading(false);
   };
-
-  const handleGenerateContactMessage = async (name, currentMessage) => {
-    const prompt = `A person named "${name}" is writing a message to Shubham Gupta on his portfolio contact form. Their current message is: "${currentMessage}". Help them complete the message in a professional and friendly tone. If the message is empty, start a new one. The goal is to inquire about collaboration or job opportunities. Keep it concise.`;
-    const generatedMessage = await callGeminiAPI(prompt);
-    // Strip HTML for textarea
-    return generatedMessage.replace(/<br\/>/g, '\n').replace(/<[^>]*>/g, '');
-  };
-
 
   // Prevent body scroll when mobile menu is open
   useEffect(() => {
@@ -695,7 +674,7 @@ export default function App() {
           <ProjectsSection onGenerateProject={handleGenerateProjectIdea} />
           <BlogSection />
           <ExperienceSection />
-          <ContactSection onGenerateMessage={handleGenerateContactMessage} />
+          <ContactSection />
         </main>
 
         <Footer />
