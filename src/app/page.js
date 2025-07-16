@@ -3,7 +3,7 @@
 // This code goes into your `app/page.js` file.
 'use client';
 
-import { Github, Linkedin, Instagram, Mail, Briefcase, School, ExternalLink, Menu, X } from 'lucide-react';
+import { Github, Linkedin, Instagram, Mail, Briefcase, School, ExternalLink, Menu, X, ArrowRight, Sparkles, LoaderCircle } from 'lucide-react';
 import { useRef, useEffect, useState } from 'react';
 
 // --- Reusable Components ---
@@ -41,6 +41,13 @@ const ProjectCard = ({ children, className }) => (
   </div>
 );
 
+// A card component for blog posts
+const BlogCard = ({ children, className }) => (
+  <div className={`bg-slate-800/60 backdrop-blur-sm border border-gray-200/20 rounded-xl shadow-lg p-6 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl hover:shadow-sky-500/20 ${className}`}>
+    {children}
+  </div>
+);
+
 
 // A standard, non-animated card for static content like forms
 const StaticCard = ({ children, className }) => (
@@ -56,6 +63,46 @@ const Tag = ({ children }) => (
     {children}
   </span>
 );
+
+// --- Gemini AI Features ---
+
+const ProjectIdeaModal = ({ idea, isLoading, onClose }) => {
+  if (!idea && !isLoading) return null;
+
+  return (
+    <div className="fixed inset-0 bg-slate-900/30 backdrop-blur-md flex items-center justify-center z-50 p-4">
+      <div className="relative w-full max-w-3xl bg-slate-800 border border-sky-500/50 rounded-2xl shadow-xl flex flex-col p-6 sm:p-8 h-auto max-h-[80vh]">
+        <button onClick={onClose} className="absolute top-4 right-4 text-gray-500 hover:text-white hover:bg-slate-700/50 rounded-full p-1 transition-colors z-20">
+          <X size={24} />
+        </button>
+
+        <h3 className="text-2xl font-bold text-white mb-4 text-center">✨ New Project Idea!</h3>
+
+        <div className="flex-grow overflow-y-auto hide-scrollbar pr-2">
+          {isLoading ? (
+            <div className="flex flex-col items-center justify-center h-full min-h-[200px]">
+              <LoaderCircle className="animate-spin text-sky-400" size={48} />
+              <p className="text-gray-300 mt-4">Generating a brilliant idea...</p>
+            </div>
+          ) : (
+            <div className="text-left text-gray-300 space-y-4" dangerouslySetInnerHTML={{ __html: idea }}>
+            </div>
+          )}
+        </div>
+
+        <div className="mt-6 pt-4 text-center border-t border-slate-700/50">
+          <button
+            onClick={onClose}
+            className="bg-sky-500/20 text-sky-300 font-semibold px-6 py-2 rounded-full hover:bg-sky-500/40 transition-all duration-300"
+          >
+            Back to Portfolio
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 
 // --- Page Sections ---
 
@@ -134,7 +181,7 @@ const AboutSection = () => {
   );
 };
 
-const ProjectsSection = () => {
+const ProjectsSection = ({ onGenerateProject }) => {
   const projects = [
     {
       title: "Command-Line Banking System",
@@ -201,6 +248,92 @@ const ProjectsSection = () => {
             </ProjectCard>
           ))}
         </div>
+        <div className="text-center mt-16">
+          <button
+            onClick={onGenerateProject}
+            className="bg-sky-500 text-white font-semibold px-6 py-3 rounded-full hover:bg-sky-600 transition-all duration-300 shadow-lg flex items-center gap-2 mx-auto"
+          >
+            <Sparkles size={20} />
+            Suggest a New Project Idea
+          </button>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const BlogSection = () => {
+  const allPosts = [
+    {
+      title: "My Journey into Web Development",
+      excerpt: "A look back at how I started with programming, the challenges I faced, and the joy of building my first website.",
+      date: "2025-07-15",
+      image: "https://placehold.co/600x400/1e293b/94a3b8?text=Blog+Post+1",
+      url: "#"
+    },
+    {
+      title: "Core Java Concepts I Use Daily",
+      excerpt: "A deep dive into the fundamental Java concepts that are essential for building robust and scalable applications.",
+      date: "2025-06-28",
+      image: "https://placehold.co/600x400/1e293b/38bdf8?text=Blog+Post+2",
+      url: "#"
+    },
+    {
+      title: "Why I Chose Next.js for My Portfolio",
+      excerpt: "Exploring the benefits of Next.js, from its performance optimizations to its developer-friendly features.",
+      date: "2025-06-10",
+      image: "https://placehold.co/600x400/1e293b/38bdf8?text=Blog+Post+3",
+      url: "#"
+    },
+    {
+      title: "Understanding Asynchronous JavaScript",
+      excerpt: "A beginner-friendly guide to Promises, async/await, and how they make modern web development possible.",
+      date: "2025-05-22",
+      image: "https://placehold.co/600x400/1e293b/f472b6?text=Async+JS",
+      url: "#"
+    }
+  ];
+
+  // Sort posts by date and get the 3 most recent ones
+  const featuredPosts = allPosts
+    .sort((a, b) => new Date(b.date) - new Date(a.date))
+    .slice(0, 3);
+
+  const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  };
+
+  return (
+    <section id="blog" className="py-20 md:py-24 bg-slate-800/50">
+      <div className="container mx-auto px-4">
+        <h2 className="text-3xl md:text-4xl font-bold text-white text-center mb-4">Personal Blog</h2>
+        <p className="text-lg text-gray-400 text-center mb-12">I occasionally write about technology, learning, and personal growth.</p>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {featuredPosts.map((post, index) => (
+            <BlogCard key={index} className="flex flex-col">
+              <img
+                src={post.image}
+                alt={post.title}
+                className="rounded-lg mb-4 w-full h-48 object-cover"
+              />
+              <p className="text-sky-400 text-sm mb-2">{formatDate(post.date)}</p>
+              <h3 className="text-xl font-bold text-white mb-2">{post.title}</h3>
+              <p className="text-gray-400 mb-4 flex-grow">{post.excerpt}</p>
+              <a href={post.url} target="_blank" rel="noopener noreferrer" className="text-sky-300 hover:text-sky-200 flex items-center gap-2 self-start">
+                Read More <ArrowRight size={16} />
+              </a>
+            </BlogCard>
+          ))}
+        </div>
+        <div className="text-center mt-16">
+          <a href="/blog" className="border border-sky-500 text-sky-300 font-semibold px-8 py-3 rounded-full hover:bg-sky-500/20 transition-all duration-300">
+            View All Posts
+          </a>
+        </div>
       </div>
     </section>
   );
@@ -241,7 +374,7 @@ const ExperienceSection = () => {
   }, []);
 
   return (
-    <section id="experience" className="py-20 md:py-24 bg-slate-800/50">
+    <section id="experience" className="py-20 md:py-24">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl md:text-4xl font-bold text-white text-center mb-12">My Journey</h2>
         <div className="max-w-3xl mx-auto relative">
@@ -273,14 +406,24 @@ const ExperienceSection = () => {
   );
 };
 
-const ContactSection = () => {
+const ContactSection = ({ onGenerateMessage }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
-  const [status, setStatus] = useState(''); // To display success/error messages
+  const [status, setStatus] = useState('');
+  const [isAiLoading, setIsAiLoading] = useState(false);
+
+  const handleGenerateMessage = async () => {
+    setIsAiLoading(true);
+    const generatedMessage = await onGenerateMessage(name, message);
+    if (generatedMessage) {
+      setMessage(generatedMessage);
+    }
+    setIsAiLoading(false);
+  }
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent the default form submission
+    e.preventDefault();
     setStatus('Sending...');
 
     try {
@@ -292,7 +435,6 @@ const ContactSection = () => {
 
       if (response.ok) {
         setStatus('Message sent successfully!');
-        // Clear the form
         setName('');
         setEmail('');
         setMessage('');
@@ -307,7 +449,7 @@ const ContactSection = () => {
   };
 
   return (
-    <section id="contact" className="py-20 md:py-24">
+    <section id="contact" className="py-20 md:py-24 bg-slate-800/50">
       <div className="container mx-auto px-4">
         <div className="max-w-2xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Get In Touch</h2>
@@ -334,14 +476,25 @@ const ContactSection = () => {
                   required
                 />
               </div>
-              <textarea
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                placeholder="Your Message"
-                rows="5"
-                className="w-full bg-slate-700/50 border border-gray-600 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-sky-500"
-                required
-              ></textarea>
+              <div className="relative">
+                <textarea
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  placeholder="Your Message"
+                  rows="5"
+                  className="w-full bg-slate-700/50 border border-gray-600 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-sky-500 hide-scrollbar"
+                  required
+                ></textarea>
+                <button
+                  type="button"
+                  onClick={handleGenerateMessage}
+                  disabled={isAiLoading}
+                  className="absolute bottom-3 right-3 text-xs bg-sky-500/50 text-white px-2 py-1 rounded-full hover:bg-sky-500/80 transition-colors flex items-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isAiLoading ? <LoaderCircle className="animate-spin" size={14} /> : <Sparkles size={14} />}
+                  Help Me Write
+                </button>
+              </div>
               <button type="submit" className="w-full bg-sky-500 text-white font-semibold p-3 rounded-lg hover:bg-sky-600 transition-all duration-300 shadow-lg disabled:bg-sky-800" disabled={status === 'Sending...'}>
                 {status === 'Sending...' ? 'Sending...' : 'Send Message'}
               </button>
@@ -372,13 +525,73 @@ const Footer = () => (
 
 export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [projectIdea, setProjectIdea] = useState('');
+  const [isModalLoading, setIsModalLoading] = useState(false);
 
   const navLinks = [
     { href: "#about", label: "About" },
     { href: "#projects", label: "Projects" },
+    { href: "#blog", label: "Blog" },
     { href: "#experience", label: "Experience" },
     { href: "#contact", label: "Contact" },
   ];
+
+  async function callGeminiAPI(prompt) {
+    const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+    const payload = {
+      contents: [{ role: "user", parts: [{ text: prompt }] }]
+    };
+
+    try {
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        throw new Error(`API call failed with status: ${response.status}`);
+      }
+
+      const result = await response.json();
+
+      if (result.candidates && result.candidates.length > 0 &&
+        result.candidates[0].content && result.candidates[0].content.parts &&
+        result.candidates[0].content.parts.length > 0) {
+        let text = result.candidates[0].content.parts[0].text;
+        // Basic markdown to HTML conversion
+        text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
+        text = text.replace(/\n/g, '<br/>');
+        return text;
+      } else {
+        return "Sorry, I couldn't generate a response. Please try again.";
+      }
+    } catch (error) {
+      console.error("Gemini API error:", error);
+      return "An error occurred while contacting the AI. Please check the console.";
+    }
+  }
+
+  const handleGenerateProjectIdea = async () => {
+    setIsModalLoading(true);
+    setProjectIdea(''); // Clear previous idea
+    const skills = ["Java", "Python", "MySQL", "PostgreSQL", "Git", "Linux", "Pandas", "Next.js", "React"];
+    const prompt = `Generate a unique and interesting project idea for a student portfolio. The student's skills are: ${skills.join(', ')}. The idea should be something that can be built and deployed. Provide a title, a short description, and a list of key features or technologies to use. Format the response with markdown.`;
+    const idea = await callGeminiAPI(prompt);
+    setProjectIdea(idea);
+    setIsModalLoading(false);
+  };
+
+  const handleGenerateContactMessage = async (name, currentMessage) => {
+    const prompt = `A person named "${name}" is writing a message to Shubham Gupta on his portfolio contact form. Their current message is: "${currentMessage}". Help them complete the message in a professional and friendly tone. If the message is empty, start a new one. The goal is to inquire about collaboration or job opportunities. Keep it concise.`;
+    const generatedMessage = await callGeminiAPI(prompt);
+    // Strip HTML for textarea
+    return generatedMessage.replace(/<br\/>/g, '\n').replace(/<[^>]*>/g, '');
+  };
+
 
   // Prevent body scroll when mobile menu is open
   useEffect(() => {
@@ -391,12 +604,13 @@ export default function App() {
 
   return (
     <>
+      <ProjectIdeaModal idea={projectIdea} isLoading={isModalLoading} onClose={() => setProjectIdea('')} />
       {/* This style tag hides the scrollbar and adds the card hover effect */}
       <style>{`
-        .hide-scrollbar::-webkit-scrollbar {
+        html::-webkit-scrollbar, body::-webkit-scrollbar, .hide-scrollbar::-webkit-scrollbar {
           display: none;
         }
-        .hide-scrollbar {
+        html, body, .hide-scrollbar {
           -ms-overflow-style: none;  /* IE and Edge */
           scrollbar-width: none;  /* Firefox */
         }
@@ -478,9 +692,10 @@ export default function App() {
         <main className="pt-16"> {/* Add padding to main to offset fixed header */}
           <HeroSection />
           <AboutSection />
-          <ProjectsSection />
+          <ProjectsSection onGenerateProject={handleGenerateProjectIdea} />
+          <BlogSection />
           <ExperienceSection />
-          <ContactSection />
+          <ContactSection onGenerateMessage={handleGenerateContactMessage} />
         </main>
 
         <Footer />
