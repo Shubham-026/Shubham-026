@@ -1,0 +1,628 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Portfolio — Shubham Gupta</title>
+
+  <!-- Favicon: The gradient 'S' logo for the browser tab/title bar -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='neonGradient' x1='0%' y1='0%' x2='100%' y2='100%'%3E%3Cstop offset='0%' style='stop-color:%2300a8ff;stop-opacity:1' /%3E%3Cstop offset='33%' style='stop-color:%2300ffa3;stop-opacity:1' /%3E%3Cstop offset='66%' style='stop-color:%23ffd400;stop-opacity:1' /%3E%3Cstop offset='100%' style='stop-color:%23ff4d6d;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='15' fill='url(%23neonGradient)'/%3E%3Ctext x='50%' y='70%' font-size='60' font-family='Orbitron, sans-serif' fill='%230b0f14' text-anchor='middle' font-weight='900'%3ES%3C/text%3E%3C/svg%3E">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#0b0f14;               
+      --panel: rgba(255,255,255,0.03);
+      --glass: rgba(255,255,255,0.02);
+      --muted: #99a1ac;
+      --blue: #00a8ff;
+      --green:#00ffa3;
+      --yellow:#ffd400;
+      --red:#ff4d6d;
+      --neon-blue: 0 0 14px rgba(0,168,255,.18), 0 0 34px rgba(0,168,255,.08);
+      --neon-green: 0 0 14px rgba(0,255,163,.16), 0 0 34px rgba(0,255,163,.06);
+      --neon-yellow: 0 0 12px rgba(255,212,0,.14), 0 0 28px rgba(255,212,0,.06);
+      --neon-red: 0 0 12px rgba(255,77,109,.14), 0 0 28px rgba(255,77,109,.06);
+      --glass-border: rgba(255,255,255,0.06);
+      --radius: 14px;
+      color-scheme: dark;
+    }
+
+    /* Reset */
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background:
+        radial-gradient(1200px 600px at 10% 10%, rgba(0,168,255,0.035), transparent 6%),
+        radial-gradient(900px 400px at 90% 80%, rgba(0,255,163,0.03), transparent 6%),
+        var(--bg);
+      color:#e9f0f8;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding:48px; /* Default large padding */
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      min-height:100vh;
+      overflow-x: hidden; /* Prevent body scroll due to cursor trail */
+    }
+
+    /* CURSOR TRAIL STYLES - NEW */
+    .trail-dot {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      pointer-events: none; /* Crucial: ensures clicks go through the dot */
+      opacity: 0;
+      z-index: 9999;
+      transform: translate(-50%, -50%); /* Center dot on cursor position */
+      box-shadow: 0 0 4px 1px rgba(255, 255, 255, 0.4), 0 0 8px rgba(0, 168, 255, 0.8);
+      transition: opacity 0.5s ease-out, transform 0.5s ease-out; /* Fading animation */
+      background: #fff;
+    }
+    .trail-dot.active {
+      opacity: 1;
+    }
+
+
+    /* Layout container */
+    .wrap{
+      width:100%;
+      max-width:1100px;
+      display:grid;
+      gap:28px;
+      grid-template-columns: 1fr 380px;
+      align-items:start;
+      margin:auto;
+    }
+
+    /* Left column (main) */
+    main{
+      backdrop-filter: blur(6px) saturate(.9);
+      background: linear-gradient(180deg, rgba(255,255,255,0.016), rgba(255,255,255,0.01));
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius);
+      padding:36px;
+      box-shadow: 0 10px 40px rgba(2,6,12,0.6);
+      position:relative;
+      overflow:hidden;
+    }
+
+    /* Right column (side) */
+    aside{
+      min-height:300px;
+      border-radius: var(--radius);
+      padding:22px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border:1px solid var(--glass-border);
+      box-shadow: 0 6px 30px rgba(2,6,12,0.55);
+    }
+
+    /* Header */
+    .head{
+      display:flex;
+      align-items:center;
+      gap:18px;
+      margin-bottom:18px;
+    }
+
+    /* Avatar/Logo Styling */
+    .avatar{
+      width:90px; 
+      height:90px;
+      border-radius:50%; 
+      display:grid; 
+      place-items:center;
+      background: none;
+      border: none;
+      box-shadow: none;
+      flex:0 0 90px;
+      overflow: hidden; 
+    }
+    
+    .avatar .pfp-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%; 
+      border: none;
+    }
+
+    h1{
+      font-family: Orbitron, Inter;
+      font-weight:700;
+      font-size:30px; 
+      letter-spacing:0.6px;
+      color: #ecf7ff;
+      text-shadow: 0 0 12px rgba(0,168,255,.06);
+    }
+
+    .subtitle{
+      color:var(--muted);
+      font-size:13px;
+      margin-top:4px;
+    }
+
+    /* Intro / bio */
+    .bio{
+      margin:18px 0 26px 0;
+      line-height:1.5;
+      color: #dfe9f5;
+      font-size:15px;
+      max-width:64ch;
+    }
+
+    /* Neon tags */
+    .tags{display:flex;gap:10px;flex-wrap:wrap}
+    .tag{
+      padding:6px 10px;border-radius:999px;font-weight:600;font-size:12px;
+      background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border: 1px solid rgba(255,255,255,0.03);
+      color:var(--muted);
+      box-shadow: inset 0 -6px 20px rgba(0,0,0,0.25);
+    }
+
+    /* Projects grid */
+    .projects{
+      display:grid;
+      gap:14px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      margin-top:18px;
+    }
+
+    .card{
+      border-radius:12px;
+      padding:16px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.012), rgba(255,255,255,0.008));
+      border:1px solid rgba(255,255,255,0.03);
+      transition: transform .28s cubic-bezier(.15,.9,.3,1), box-shadow .28s;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .card:hover{
+      transform: translateY(-8px);
+      box-shadow: 0 18px 40px rgba(2,6,12,0.6);
+    }
+
+    .card h3{
+      font-size:15px;margin-bottom:8px;font-weight:700;
+    }
+
+    .card p{font-size:13px;color:var(--muted);line-height:1.4}
+
+    /* Neon accent bar */
+    .accent{
+      height:6px;border-radius:6px;margin-bottom:12px;box-shadow:0 6px 30px rgba(0,0,0,.5);
+    }
+
+    .accent.blue{background:linear-gradient(90deg,var(--blue), rgba(0,168,255,0.5));box-shadow:var(--neon-blue)}
+    .accent.green{background:linear-gradient(90deg,var(--green), rgba(0,255,163,0.4));box-shadow:var(--neon-green)}
+    .accent.yellow{background:linear-gradient(90deg,var(--yellow), rgba(255,212,0,0.3));box-shadow:var(--neon-yellow)}
+    .accent.red{background:linear-gradient(90deg,var(--red), rgba(255,77,109,0.3));box-shadow:var(--neon-red)}
+
+    /* Project footer row */
+    .meta{
+      display:flex;justify-content:space-between;align-items:center;margin-top:12px;
+    }
+
+    .pill{
+      padding:6px 10px;border-radius:999px;font-size:12px;border:1px solid rgba(255,255,255,0.03);
+      background: rgba(255,255,255,0.015);
+      color:var(--muted);
+    }
+
+    /* Unified Button Style */
+    .btn, button[type="submit"]{
+      display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:10px;
+      text-decoration:none;font-weight:700;font-size:13px;
+      border:1px solid rgba(255,255,255,0.06);
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      color:#eaf6ff;
+      transition: transform .18s, box-shadow .18s;
+      cursor:pointer;
+      font-family: inherit;
+    }
+    .btn:active, button[type="submit"]:active{transform:translateY(1px)}
+    .btn:hover, button[type="submit"]:hover{box-shadow:0 10px 30px rgba(0,0,0,.45)}
+    
+    button:disabled{opacity:0.6;cursor:not-allowed}
+
+    /* Sidebar details */
+    .profile-list{display:flex;flex-direction:column;gap:12px;margin-top:8px}
+    .info-row{
+      display:flex;justify-content:space-between;align-items:center;padding:10px;border-radius:10px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.006));
+      border:1px solid rgba(255,255,255,0.02);
+    }
+    .muted{color:var(--muted);font-size:13px}
+    .big{font-weight:700}
+
+    /* Contact card */
+    .contact{
+      margin-top:18px;padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.006));
+    }
+
+    /* Input Styles */
+    input, textarea {
+      width:100%;
+      padding:10px;
+      border-radius:8px;
+      border:1px solid rgba(255,255,255,0.1);
+      background:rgba(0,0,0,0.2);
+      color:#fff;
+      font-family:inherit;
+      font-size:13px;
+      outline:none;
+      transition: border-color 0.2s;
+    }
+    input:focus, textarea:focus{
+      border-color: var(--blue);
+    }
+
+    /* Remove resizing ability for textarea */
+    textarea {
+      resize: none !important;
+    }
+
+    /* Character count display */
+    .char-count {
+      text-align: right;
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: -8px;
+      margin-bottom: 4px;
+    }
+
+
+    .socials{display:flex;gap:10px;margin-top:10px}
+    .socials a{
+      display:inline-grid;place-items:center;width:42px;height:42px;border-radius:10px;
+      text-decoration:none;font-weight:700;font-size:12px;border:1px solid rgba(255,255,255,0.03);
+      background: linear-gradient(180deg, rgba(255,255,255,0.018), rgba(255,255,255,0.008));
+      color:#eaf6ff;
+      transition: transform .18s, box-shadow .18s;
+    }
+    .socials a:focus{outline:2px solid rgba(255,255,255,0.06)}
+    .socials a:hover{transform:translateY(-6px)}
+
+    /* Neon colored social icons */
+    .s-blue{box-shadow:var(--neon-blue)}
+    .s-green{box-shadow:var(--neon-green)}
+    .s-yellow{box-shadow:var(--neon-yellow)}
+    .s-red{box-shadow:var(--neon-red)}
+
+    /* Footer note */
+    .small{font-size:12px;color:var(--muted);margin-top:18px}
+
+    /* Responsive adjustments for mobile devices */
+    @media (max-width:980px){
+      /* CRITICAL FIX: Reduce body padding for mobile screens */
+      body{
+        padding:18px; 
+      }
+      .wrap{
+        grid-template-columns:1fr; 
+        gap:24px;
+      }
+      aside{order:2}
+      main{order:1}
+    }
+
+    /* subtle animated underline */
+    .fancy-link{
+      position:relative;color:inherit;text-decoration:none;font-weight:700;
+    }
+    .fancy-link::after{
+      content:"";position:absolute;left:0;bottom:-6px;width:0;height:3px;border-radius:3px;
+      background:linear-gradient(90deg,var(--blue),var(--green),var(--yellow),var(--red));
+      transition: width .28s cubic-bezier(.2,.9,.3,1), opacity .28s;
+      opacity:.9;
+    }
+    .fancy-link:hover::after{width:100%}
+
+    /* reduced-motion respect */
+    @media (prefers-reduced-motion: reduce){
+      *{transition:none!important;animation:none!important}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap" role="main">
+    <main>
+      <header class="head" aria-hidden="false">
+        <!-- PFP Container with Placeholder Image -->
+        <div class="avatar" role="img" aria-label="Shubham Profile Picture">
+          <img 
+            src="https://placehold.co/90x90/1a1f26/99a1ac?text=PFP" 
+            alt="Shubham Profile Picture" 
+            class="pfp-img"
+          >
+        </div>
+        <div>
+          <h1>Shubham Gupta</h1>
+          <div class="subtitle">AI · Web-Dev · Student</div>
+        </div>
+      </header>
+
+      <section class="bio" aria-labelledby="about-heading">
+        <strong id="about-heading" style="display:block;margin-bottom:8px;font-weight:700">About</strong>
+        Software developer building automated systems and interactive applications with a focus on efficiency and Artificial Intelligence.
+      </section>
+
+      <div class="tags" aria-hidden="false">
+        <div class="tag">HTML</div>
+        <div class="tag">CSS</div>
+        <div class="tag">JavaScript</div>
+        <div class="tag">Python</div>
+        <div class="tag">Java</div>
+        <div class="tag">Pandas</div>
+        <div class="tag">FastAPI</div>
+        <div class="tag">MySQL</div>
+        <div class="tag">PostgreSQL</div>
+      </div>
+
+      <section style="margin-top:22px" aria-labelledby="projects-heading">
+        <div style="display:flex;justify-content:space-between;align-items:end">
+          <div>
+            <h2 id="projects-heading" style="font-size:16px;margin-bottom:6px">Selected Projects</h2>
+            <div class="small">A concise selection — links where available.</div>
+          </div>
+          <a href="#contact" class="fancy-link" style="font-size:13px">Contact →</a>
+        </div>
+
+        <div class="projects" style="margin-top:14px">
+          
+          <!-- Auto Attendance -->
+          <article class="card" aria-labelledby="p1">
+            <div class="accent blue" aria-hidden="true"></div>
+            <h3 id="p1">Auto Attendance</h3>
+            <p>Automated attendance system designed to streamline tracking and reporting using Python.</p>
+            <div class="meta">
+              <div class="pill">Python • Automation</div>
+              <a class="btn" href="https://github.com/Shubham-026/Auto-Attendance" target="_blank" rel="noopener noreferrer" aria-label="View Code">Repo</a>
+            </div>
+          </article>
+
+          <!-- Snake Game -->
+          <article class="card" aria-labelledby="p2">
+            <div class="accent green" aria-hidden="true"></div>
+            <h3 id="p2">Snake Game</h3>
+            <p>Interactive classic Snake game built for the web with score tracking and responsive controls.</p>
+            <div class="meta">
+              <div class="pill">JavaScript • HTML5</div>
+              <a class="btn" href="https://shubham-026.github.io/snakeGame/" target="_blank" rel="noopener noreferrer" aria-label="Play Game">Play</a>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <section style="margin-top:28px">
+        <h2 style="font-size:16px;margin-bottom:8px">Skills</h2>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px">
+          <div class="pill">WebDev</div>
+          <div class="pill">Automations</div>
+          <div class="pill">Ai Tools</div>
+          <div class="pill">Accessibility</div>
+        </div>
+      </section>
+
+    </main>
+
+    <aside aria-label="sidebar">
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div class="profile-list">
+          <div class="info-row">
+            <div>
+              <div class="muted">Location</div>
+              <div class="big">India</div>
+            </div>
+            <div style="text-align:right">
+              <div class="muted">Availability</div>
+              <div class="big">Open</div>
+            </div>
+          </div>
+
+          <div class="info-row">
+            <div>
+              <div class="muted">Focus</div>
+              <div class="big">AI</div>
+            </div>
+            <div style="text-align:right">
+              <div class="muted">Experience</div>
+              <div class="big">Student / Projects</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CONTACT & FORM SECTION -->
+        <div class="contact" id="contact" role="region" aria-labelledby="contact-title">
+          <strong id="contact-title" style="display:block; margin-bottom:12px">Contact</strong>
+          
+          <div class="small" style="margin-bottom:12px">
+            Email — <a class="fancy-link" href="mailto:shubhamgupta2406@outlook.com">shubhamgupta2406@outlook.com</a>
+          </div>
+
+          <!-- Telegram Message Form -->
+          <form id="msgForm" style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px">
+            <input 
+              type="email" 
+              name="email" 
+              placeholder="Your Email (Optional)" 
+              aria-label="Your Email"
+            >
+            <textarea 
+              id="messageInput"
+              name="message" 
+              required 
+              placeholder="Write a message (max 500 chars)..." 
+              rows="3" 
+              maxlength="500"
+              aria-label="Message"
+            ></textarea>
+            <div id="charCount" class="char-count">0 / 500</div>
+            <button type="submit">
+              Send Message
+            </button>
+            <div id="status" class="small" style="display:none;margin-top:0;"></div>
+          </form>
+
+          <div class="small">Or connect:</div>
+          <div class="socials" role="list" style="margin-top:10px">
+            <a class="s-blue" href="https://github.com/Shubham-026" aria-label="Github" target="_blank" title="GitHub">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+            </a>
+            <a class="s-green" href="https://www.linkedin.com/in/shubham-gupta-569576362" aria-label="LinkedIn" target="_blank" title="LinkedIn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+            </a>
+            <!-- Instagram Icon -->
+            <a class="s-yellow" href="https://instagram.com/_.sg._00_" aria-label="Instagram" target="_blank" title="Instagram">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.5" y1="6.5" y2="6.5"></line></svg>
+            </a>
+            <a class="s-red" href="mailto:shubhamgupta2406@outlook.com" aria-label="Mail" title="Email">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            </a>
+          </div>
+
+          <div class="small" style="margin-top:12px">Available for freelance & collaboration.</div>
+        </div>
+
+        <div style="margin-top:14px" class="small">
+          Version • 2.3.0 <!-- Updated version number -->
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <script>
+    // --- CURSOR TRAIL LOGIC - NEW ---
+    const NUM_DOTS = 10;
+    const dots = [];
+    const colors = ['var(--blue)', 'var(--green)', 'var(--yellow)', 'var(--red)'];
+
+    // 1. Create the trail dots and append them to the body
+    for (let i = 0; i < NUM_DOTS; i++) {
+      const dot = document.createElement('div');
+      dot.classList.add('trail-dot');
+      dot.style.transitionDelay = `${i * 30}ms`; // Stagger the animation
+      dot.style.boxShadow = `0 0 4px 1px rgba(255, 255, 255, 0.4), 0 0 8px ${colors[i % colors.length]}`;
+      dots.push(dot);
+      document.body.appendChild(dot);
+    }
+
+    // 2. Animate the trail on mouse movement
+    document.addEventListener('mousemove', (e) => {
+      // Set the first dot immediately under the cursor
+      dots[0].style.left = `${e.clientX}px`;
+      dots[0].style.top = `${e.clientY}px`;
+      
+      // Cascade the position to the next dots
+      for (let i = dots.length - 1; i > 0; i--) {
+        const prevDot = dots[i - 1];
+        const currentDot = dots[i];
+        
+        // Use a slight delay for the trail effect
+        setTimeout(() => {
+          currentDot.style.left = prevDot.style.left;
+          currentDot.style.top = prevDot.style.top;
+        }, i * 20); // Small staggered delay
+      }
+    });
+
+    // 3. Toggle visibility (for mobile touch vs desktop mouse)
+    document.addEventListener('mouseenter', () => dots.forEach(dot => dot.classList.add('active')));
+    document.addEventListener('mouseleave', () => dots.forEach(dot => dot.classList.remove('active')));
+    // Hide dots on touch devices where there is no permanent cursor
+    document.addEventListener('touchstart', () => dots.forEach(dot => dot.style.display = 'none'));
+
+
+    // --- Existing Script Functions ---
+    const messageInput = document.getElementById('messageInput');
+    const charCount = document.getElementById('charCount');
+    const maxLength = 500;
+
+    // Initialize character count display
+    charCount.textContent = `${messageInput.value.length} / ${maxLength}`;
+
+    // Add input event listener for character counting
+    messageInput.addEventListener('input', () => {
+      const currentLength = messageInput.value.length;
+      charCount.textContent = `${currentLength} / ${maxLength}`;
+      
+      // Optional: Visual feedback if near limit
+      if (currentLength >= maxLength * 0.9) {
+        charCount.style.color = 'var(--red)';
+      } else {
+        charCount.style.color = 'var(--muted)';
+      }
+    });
+
+    // Handle Form Submission securely
+    document.getElementById('msgForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const btn = this.querySelector('button');
+      const status = document.getElementById('status');
+      const formData = new FormData(this);
+      
+      // Basic client-side validation
+      const message = formData.get('message');
+      if (!message || message.length > maxLength) {
+        status.textContent = `Message must be between 1 and ${maxLength} characters.`;
+        status.style.color = 'var(--red)';
+        status.style.display = 'block';
+        return;
+      }
+
+
+      btn.disabled = true;
+      btn.textContent = 'Sending...';
+      status.style.display = 'none';
+
+      try {
+        // --- SIMULATED SUCCESS START (for this environment) ---
+        await new Promise(resolve => setTimeout(resolve, 800)); // Simulate network delay
+        const simulatedSuccess = true;
+
+        if (simulatedSuccess) {
+          status.textContent = 'Message sent successfully! (Note: Real message sending requires a Vercel deployment)';
+          status.style.color = 'var(--green)';
+          this.reset();
+          messageInput.dispatchEvent(new Event('input')); // Reset character count
+        } else {
+          status.textContent = 'Failed to send. Try again later.';
+          status.style.color = 'var(--red)';
+        }
+        // --- SIMULATED SUCCESS END ---
+
+      } catch (err) {
+        status.textContent = 'Error connecting to server.';
+        status.style.color = 'var(--red)';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Send Message';
+        status.style.display = 'block';
+      }
+    });
+
+    // Minimal accessibility focus
+    (function(){
+      try{
+        var onKey = function(e){
+          if(e.key === 'Tab'){
+            document.documentElement.classList.add('show-focus');
+            window.removeEventListener('keydown', onKey);
+          }
+        };
+        window.addEventListener('keydown', onKey);
+      }catch(e){}
+    }());
+  </script>
+</body>
+</html>
+
