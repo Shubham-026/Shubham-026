@@ -50,23 +50,25 @@
   <img src="https://skillicons.dev/icons?i=git,github,vscode" />
 </p>
 
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="900">
+
 <p align="center">
-  <img src="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=Shubham-026&theme=date_night" alt="Profile Details" />
-  <img src="https://github-profile-summary-cards.vercel.app/api/cards/repos-per-language?username=Shubham-026&theme=date_night" alt="Repos per Language" />
-  <img src="https://github-profile-summary-cards.vercel.app/api/cards/most-commit-language?username=Shubham-026&theme=date_night" alt="Most Commit Language" />
-  <img src="https://github-profile-summary-cards.vercel.app/api/cards/stats?username=Shubham-026&theme=date_night" alt="Stats" />
-  <img src="https://github-profile-summary-cards.vercel.app/api/cards/productive-time?username=Shubham-026&theme=date_night&utcOffset=8" alt="Productive Time" />
+  <img src="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=Shubham-026&theme=react" alt="Profile Details" />
+  <img src="https://github-profile-summary-cards.vercel.app/api/cards/repos-per-language?username=Shubham-026&theme=react" alt="Repos per Language" />
+  <img src="https://github-profile-summary-cards.vercel.app/api/cards/most-commit-language?username=Shubham-026&theme=react" alt="Most Commit Language" />
+  <img src="https://github-profile-summary-cards.vercel.app/api/cards/stats?username=Shubham-026&theme=react" alt="Stats" />
+  <img src="https://github-profile-summary-cards.vercel.app/api/cards/productive-time?username=Shubham-026&theme=react&utcOffset=8" alt="Productive Time" />
 </p>
 
 
 
 <p align="center">
-   <img height="180em" src="https://github-readmeapp.vercel.app/api?username=Shubham-026&show_icons=true&theme=date_night&hide_border=true&rank_icon=github" alt="GitHub stats" />
+   <img height="180em" src="https://github-readmeapp.vercel.app/api?username=Shubham-026&show_icons=true&theme=react&hide_border=true&rank_icon=github" alt="GitHub stats" />
 </p>
 
 
 <p align="center">
-  <img src="https://streak-stats.demolab.com?user=Shubham-026&theme=date_night&hide_border=true" alt="GitHub streak" />
+  <img src="https://streak-stats.demolab.com?user=Shubham-026&theme=react&hide_border=true" alt="GitHub streak" />
 </p>
 
 <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="900">
